@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loan Prediction</title>
+  <style>
+    body {
+        margin:0px; 
+      font-family: Arial, sans-serif;
+      background-image: url("{{ url_for('static', filename='img/bg.jpg') }}");
+      background-size:cover center;
+      background-color:black ;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      background-color:black;
+      padding:20px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        
+      display: block;
+      margin-bottom: 10px;
+      margin-top: 12px;
+      color: #333;
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    input[type="submit"] {
+    margin-top:10px; 
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    .hint {
+        display: none;
+        font-size: 12px;
+        color: blue;
+        margin-top: 5px;
+      }
+     
+   
+      .result-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+     
+  </style>
+</head>
+<body>
+  
+  <h1>Loan Prediction Form</h1>
+  <form id="myForm" action="/" method="post">
+    <label for="married">Married<span class="required"></span>:</label>
+    <select id="married" name="married" >
+      <option value="" disabled selected>Select an option</option>
+      <option value="0" {% if married == "0" %} selected {% endif %}>No</option>
+      <option value="1" {% if married == "1" %} selected {% endif %}>Yes</option>
+    </select>
+    <label for="credit_history">Credit History<span class="required"></span>:</label>
+    <select id="credit_history" name="credit_history">
+      <option value="" disabled selected>Select an option</option>
+      <option value="0" {% if credit_history == "0" %} selected {% endif %}>No</option>
+      <option value="1" {% if credit_history == "1" %} selected {% endif %}>Yes</option>
+    </select>
+    <small class="hint">Indicate whether the applicant has a credit history.</small><br>
+
+    <label for="applicantincome">Applicant Income<span class="required"></span>:</label>
+    <input type="number" id="applicantincome" name="applicantincome" required value={{applicantincome}}>
+    <small class="hint">Enter the applicant's income in USD.</small><br>
+
+    <label for="loanamount">Loan Amount<span class="required"></span>:</label>
+    <input type="number" id="loanamount" name="loanamount" required value ="{{loanamount}}">
+    <small class="hint">Enter the desired loan amount in USD.</small><br>
+    <label for="loan_amount_term">Loan Amount Term (in months)<span class="required"></span>:</label>
+    <input type="number" id="loan_amount_term" name="loan_amount_term" required value="{{loan_amount_term}}">
+    <small class="hint">Specify the loan term in months.</small><br>
+   <input type="submit" value="Submit">
+   
+   {% if message is defined %}
+   <div >
+     <h2 class="result-title">Result:</h2>
+     <p style="color: {{ status }};">{{ message }}</p>
+   </div>
+ {% endif %}
+  </form>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('myForm');
+        setTimeout(function() {
+          form.classList.remove('hidden');
+        }, 5000); // Display the form after 5 seconds (5000 milliseconds)
+      });
+    window.addEventListener('DOMContentLoaded', function() {
+      var inputFields = document.querySelectorAll('input');
+      for (var i = 0; i < inputFields.length; i++) {
+        inputFields[i].addEventListener('focus', showHint);
+        inputFields[i].addEventListener('blur', hideHint);
+      }
+
+      function showHint() {
+        var hint = this.nextElementSibling;
+        hint.style.display = 'block';
+      }
+
+      function hideHint() {
+        var hint = this.nextElementSibling;
+        hint.style.display = 'none';
+      }
+    });
+  </script>
+
+
+</body>
+</html>
